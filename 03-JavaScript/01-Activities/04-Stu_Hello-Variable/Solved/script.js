@@ -17,3 +17,10 @@ funFact = 'I was a yo-yo champ in third grade.';
 console.log('My name is ' + personName + '.');
 console.log('I have ' + pets + ' pet(s).');
 console.log('Fun fact: ' + funFact);
+
+
+var num1 = 1;
+var num2 = 2;
+var num3 = num1 + num2;
+
+console.log(num3);
