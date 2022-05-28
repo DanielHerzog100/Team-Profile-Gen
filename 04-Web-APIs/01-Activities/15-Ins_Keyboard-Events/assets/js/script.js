@@ -20,6 +20,7 @@ typefaceEl.addEventListener('change', function (event) {
 // Keydown event
 textAreaEl.addEventListener('keydown', function (event) {
   // Access value of pressed key with key property
+  console.log(event)
   var key = event.key.toLowerCase();
   var alphabetNumericCharacters = 'abcdefghijklmnopqrstuvwxyz0123456789 '.split(
     ''
