@@ -28,7 +28,7 @@ function init() {
 // The startGame function is called when the start button is clicked
 function startGame() {
   isWin = false;
-  timerCount = 30;
+  timerCount = 10;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
   renderBlanks()
@@ -37,30 +37,41 @@ function startGame() {
 
 // The winGame function is called when the win condition is met
 function winGame() {
-  //TODO: Update the page to let the user know they won
-  
-  //TODO: Increment winCounter
-  
-  //TODO: Call setWins function
+  wordBlank.textContent = "YOU WON!!!🏆 ";
+  winCounter++
+  startButton.disabled = false;
+  setWins()
 }
 
 // The loseGame function is called when timer reaches 0
 function loseGame() {
-  //TODO: Update the page to let the user know they lost
-  
-  //TODO: Increment lossCounter
-  
-  //TODO: Call setLoss function
+  wordBlank.textContent = "GAME OVER";
+  loseCounter++
+  startButton.disabled = false;
+  setLosses()
 }
 
 // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
-    //TODO: Create a set interval that will countdown the timerCount and display that value on the page
-
-    //TODO: Use the checkWin function to see if the user has won
-
-    //TODO: If time has run out clear the interval and call loseGame function
-   
+  // Sets timer
+  timer = setInterval(function() {
+    timerCount--;
+    timerElement.textContent = timerCount;
+    if (timerCount >= 0) {
+      // Tests if win condition is met
+      if (isWin && timerCount > 0) {
+        // Clears interval and stops timer
+        clearInterval(timer);
+        winGame();
+      }
+    }
+    // Tests if time has run out
+    if (timerCount === 0) {
+      // Clears interval
+      clearInterval(timer);
+      loseGame();
+    }
+  }, 1000);
 }
 
 // Creates blanks on screen
@@ -78,38 +89,41 @@ function renderBlanks() {
   wordBlank.textContent = blanksLetters.join(" ")
 }
 
-//TODO: Update win count on screen and sets win count to client storage
+// Updates win count on screen and sets win count to client storage
 function setWins() {
-
+  win.textContent = winCounter;
+  localStorage.setItem("winCount", winCounter);
 }
 
-//TODO: Update lose count on screen and sets lose count to client storage
+// Updates lose count on screen and sets lose count to client storage
 function setLosses() {
- 
+  lose.textContent = loseCounter;
+  localStorage.setItem("loseCount", loseCounter);
 }
 
 // These functions are used by init
 function getWins() {
-  // TODO: Get stored wins value from client storage, if it exists
-  
-  // TODO: If stored value doesn't exist, set counter to 0
- 
-  //TODO: If a stored value is retrieved from client storage set the winCounter to that value
-   
-  
-  //TODO: Render win count to page
-  
+  // Get stored value from client storage, if it exists
+  var storedWins = localStorage.getItem("winCount");
+  // If stored value doesn't exist, set counter to 0
+  if (storedWins === null) {
+    winCounter = 0;
+  } else {
+    // If a value is retrieved from client storage set the winCounter to that value
+    winCounter = storedWins;
+  }
+  //Render win count to page
+  win.textContent = winCounter;
 }
 
 function getlosses() {
-   // TODO: Get stored losses value from client storage, if it exists
-  
-  // TODO: If stored value doesn't exist, set counter to 0
- 
-  //TODO: If a stored value is retrieved from client storage set the lossCounter to that value
-   
-  
-  //TODO: Render loss count to page
+  var storedLosses = localStorage.getItem("loseCount");
+  if (storedLosses === null) {
+    loseCounter = 0;
+  } else {
+    loseCounter = storedLosses;
+  }
+  lose.textContent = loseCounter;
 }
 
 function checkWin() {
@@ -155,8 +169,8 @@ document.addEventListener("keydown", function(event) {
   }
 });
 
-//TODO: Attach event listener to start button to call startGame function on click
-
+// Attach event listener to start button to call startGame function on click
+startButton.addEventListener("click", startGame);
 
 // Calls init() so that it fires when page opened
 init();
@@ -165,11 +179,12 @@ init();
 var resetButton = document.querySelector(".reset-button");
 
 function resetGame() {
-  // TODO: Reset win and loss counts to zero
-
-  // TODO: Call setWins and setLosses functions
- 
+  // Resets win and loss counts
+  winCounter = 0;
+  loseCounter = 0;
+  // Renders win and loss counts and sets them into client storage
+  setWins()
+  setLosses()
 }
-
-
-// TODO: create an add event listener so when the Reset button is clicked it calls reset game function
+// Attaches event listener to button
+resetButton.addEventListener("click", resetGame);
