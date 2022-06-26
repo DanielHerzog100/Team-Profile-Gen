@@ -4,6 +4,12 @@ const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 const fs = require("fs");
 const renderTeam = require("./src/html-templates");
+const init = ()=>{
+
+
+
+
+
 const managerQuestions = [
   {
     type: "input",
@@ -25,9 +31,9 @@ const managerQuestions = [
     name: "officeNumber",
     message: "What is your manager's office number?",
   },
-];
 
-inquirer.prompt(managerQuestions).then((answers) => {
+
+inquirer.prompt().then((answers) => {
   const manager = new Manager(
     answers.id,
     answers.name,
@@ -35,7 +41,8 @@ inquirer.prompt(managerQuestions).then((answers) => {
     answers.officenumber
   );
   console.log(manager);
-});
+})
+];
 function addEmployees() {
   inquirer
     .prompt([
@@ -125,4 +132,6 @@ inquirer.prompt(internQuestions).then((answers) => {
     answers.school
   );
   console.log(intern);
-});
+  managerQuestions();
+})};
+init ()
