@@ -1,4 +1,4 @@
-import Employee from "./employee"
+const Employee = require("./employee")
 class Manager extends Employee{
     constructor(id, name, email,officeNumber) {
       super(id,name,email)
@@ -12,4 +12,4 @@ class Manager extends Employee{
         return "Manager"
     }
   }
-export default Manager
+module.exports = Manager
